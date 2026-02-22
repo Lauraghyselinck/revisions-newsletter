@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Révisions Newsletter - Espace Vertical</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  width: 600px;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 14px;
+}
+button:hover {
+  background: #eee;
+}
+.hidden {
+  display: none;
+}
+.correct {
+  color: green;
+  font-weight: bold;
+}
+.incorrect {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="start">
+    <h2>Révisions Newsletter</h2>
+    <p>Espace Vertical</p>
+    <button onclick="startQuiz()">Commencer</button>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <h3 id="question"></h3>
+    <div id="answers"></div>
+    <p id="feedback"></p>
+  </div>
+
+  <div id="result" class="hidden">
+    <h2>Résultat</h2>
+    <p id="score"></p>
+  </div>
+</div>
+
+<script>
+const quiz = [
+  {
+    question: "Quel est l’objectif principal d’une newsletter ?",
+    answers: [
+      "Remplacer le site internet",
+      "Fidéliser et informer les clients",
+      "Supprimer les réseaux sociaux",
+      "Augmenter le prix des services"
+    ],
+    correct: 1
+  },
+  {
+    question: "Que signifie le terme Opt-in ?",
+    answers: [
+      "Le client refuse les emails",
+      "Le client accepte de recevoir les emails",
+      "Le client supprime son compte",
+      "Le client bloque le site internet"
+    ],
+    correct: 1
+  },
+  {
+    question: "Quel élément permet d’inciter le lecteur à agir dans une newsletter ?",
+    answers: [
+      "Le logo",
+      "Le call to action",
+      "La signature",
+      "La date"
+    ],
+    correct: 1
+  },
+  {
+    question: "Quel indicateur mesure le pourcentage de mails ouverts ?",
+    answers: [
+      "Taux de conversion",
+      "Taux de clic",
+      "Taux d’ouverture",
+      "Taux de rebond"
+    ],
+    correct: 2
+  },
+  {
+    question: "Quelle méthode est utilisée pour rédiger une newsletter efficace ?",
+    answers: [
+      "SMART",
+      "PESTEL",
+      "AIDA",
+      "SWOT"
+    ],
+    correct: 2
+  },
+  {
+    question: "Quel outil permet de créer facilement une newsletter ?",
+    answers: [
+      "CMS",
+      "GPS",
+      "PDF",
+      "USB"
+    ],
+    correct: 0
+  },
+  {
+    question: "Quel est le rôle du RGPD ?",
+    answers: [
+      "Augmenter les ventes",
+      "Protéger les données personnelles",
+      "Créer des publicités",
+      "Bloquer les sites"
+    ],
+    correct: 1
+  },
+  {
+    question: "Quel élément doit obligatoirement apparaître dans une newsletter ?",
+    answers: [
+      "Un jeu vidéo",
+      "Un lien de désabonnement",
+      "Un mot de passe",
+      "Un numéro de sécurité sociale"
+    ],
+    correct: 1
+  },
+  {
+    question: "Quel indicateur mesure le nombre de personnes ayant cliqué sur un lien ?",
+    answers: [
+      "Taux de clic",
+      "Taux de rebond",
+      "Taux de livraison",
+      "Taux de satisfaction"
+    ],
+    correct: 0
+  },
+  {
+    question: "Quel est l’objectif d’un call to action ?",
+    answers: [
+      "Décorer la newsletter",
+      "Faire agir le lecteur",
+      "Changer la couleur du site",
+      "Bloquer l’accès"
+    ],
+    correct: 1
+  }
+];
+
+let current = 0;
+let score = 0;
+
+function startQuiz() {
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = quiz[current];
+  document.getElementById("question").textContent = q.question;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  document.getElementById("feedback").textContent = "";
+
+  q.answers.forEach((answer, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = answer;
+    btn.onclick = () => checkAnswer(index);
+    answersDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(index) {
+  const q = quiz[current];
+  if(index === q.correct) {
+    score++;
+    document.getElementById("feedback").textContent = "Correct";
+    document.getElementById("feedback").className = "correct";
+  } else {
+    document.getElementById("feedback").textContent = "Incorrect";
+    document.getElementById("feedback").className = "incorrect";
+  }
+
+  current++;
+  setTimeout(() => {
+    if(current < quiz.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 800);
+}
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("score").textContent =
+    "Votre score : " + score + "/" + quiz.length;
+}
+</script>
+
+</body>
+</html>
